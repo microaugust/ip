@@ -1,9 +1,10 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Pain {
 
-    static Task[] userTasks = new Task[100];
-    static int numOfTasks = 0;
+    static ArrayList<Task> userTasks = new ArrayList<Task>();
+
     static Scanner sc = new Scanner(System.in);
 
     private static void query() {
@@ -17,35 +18,34 @@ public class Pain {
                 sc.close();
                 System.exit(0);
             } else if(splittedInput[0].equals("list")) {
-                printList(userTasks, numOfTasks);
+                printList(userTasks);
             } else if(splittedInput[0].equals("mark")) {
                 if(splittedInput.length == 1) {
                     throw new EmptyCommandException();
                 }
                 int taskNum = Integer.parseInt(splittedInput[1]) - 1;
-                if(taskNum >= numOfTasks) {
+                if(taskNum >= userTasks.size()) {
                     throw new NotInListException();
                 }
-                userTasks[taskNum].mark();
+                userTasks.get(taskNum).mark();
             } else if(splittedInput[0].equals("unmark")) {
                 if(splittedInput.length == 1) {
                     throw new EmptyCommandException();
                 }
                 int taskNum = Integer.parseInt(splittedInput[1]) - 1;
-                if(taskNum >= numOfTasks) {
+                if(taskNum >= userTasks.size()) {
                     throw new NotInListException();
                 }
-                userTasks[taskNum].unmark();
+                userTasks.get(taskNum).unmark();
             } else if(splittedInput[0].equals("todo")) {
                 if(splittedInput.length == 1) {
                     throw new EmptyCommandException();
                 }
                 Task temp = new ToDos(getTaskName(splittedInput));
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
+                userTasks.add(temp);
                 System.out.println("    Got it. I've added this task:");
                 System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list.");
+                System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
             } else if(splittedInput[0].equals("deadline")) {
                 if(splittedInput.length == 1) {
                     throw new EmptyCommandException();
@@ -55,11 +55,10 @@ public class Pain {
                 String tempString = getTaskName(splittedInput);
                 String[] splitDate = tempString.split("/by ");
                 Task temp = new Deadlines(splitDate[0], splitDate[1]);
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
+                userTasks.add(temp);
                 System.out.println("    Got it. I've added this task:");
                 System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list."); 
+                System.out.println("    Now you have " + userTasks.size() + " tasks in the list."); 
             } else if(splittedInput[0].equals("event")) {
                 if(splittedInput.length == 1) {
                     throw new EmptyCommandException();
@@ -73,12 +72,25 @@ public class Pain {
                 String from = tempTwo[1];
                 String taskName = tempTwo[0];
                 Task temp = new Events(taskName, from, to);
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
+                userTasks.add(temp);
                 System.out.println("    Got it. I've added this task:");
                 System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list."); 
-            } else {
+                System.out.println("    Now you have " + userTasks.size() + " tasks in the list."); 
+            } else if(splittedInput[0].equals("delete")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                }
+                int taskNum = Integer.parseInt(splittedInput[1]);
+                if(taskNum >= userTasks.size()) {
+                    throw new NotInListException();
+                }
+                System.out.println("    Noted. I've removed this task:");
+                System.out.println("      " + userTasks.get(taskNum).toString());
+                userTasks.remove(taskNum);
+                System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
+
+            }
+            else {
                 throw new NoCommandException();
             }
         } catch (NoCommandException e) {
@@ -106,14 +118,15 @@ public class Pain {
         System.out.println("    ____________________________________________________________");
     }
 
-    private static void printList(Task[] taskList, int n) {
+    private static void printList(ArrayList<Task> taskList) {
+        int n = taskList.size();
         if(n == 0) {
             System.out.println("    NOTHING HERE");
             return;
         }
         System.out.println("    Here are the tasks in your list:");
         for(int i = 0; i < n; i++) {
-            System.out.println("    " + (i + 1) + ". " + taskList[i].toString());
+            System.out.println("    " + (i + 1) + ". " + taskList.get(i).toString());
         }
     }
 

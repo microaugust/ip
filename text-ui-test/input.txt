@@ -8,4 +8,6 @@ unmark 1
 list
 mark 4
 asdasd
+delete 2
+list
 bye
