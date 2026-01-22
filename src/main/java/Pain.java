@@ -2,13 +2,113 @@ import java.util.Scanner;
 
 public class Pain {
 
+    static Task[] userTasks = new Task[100];
+    static int numOfTasks = 0;
+    static Scanner sc = new Scanner(System.in);
+
+    private static void query() {
+        try{
+            String input = sc.nextLine();
+            String[] splittedInput = input.split("\\s+"); 
+            printLine();
+            if(splittedInput[0].equals("bye")) {
+                System.out.println("    Bye. I will definitely see you again");
+                printLine();
+                sc.close();
+                System.exit(0);
+            } else if(splittedInput[0].equals("list")) {
+                printList(userTasks, numOfTasks);
+            } else if(splittedInput[0].equals("mark")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                }
+                int taskNum = Integer.parseInt(splittedInput[1]) - 1;
+                if(taskNum >= numOfTasks) {
+                    throw new NotInListException();
+                }
+                userTasks[taskNum].mark();
+            } else if(splittedInput[0].equals("unmark")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                }
+                int taskNum = Integer.parseInt(splittedInput[1]) - 1;
+                if(taskNum >= numOfTasks) {
+                    throw new NotInListException();
+                }
+                userTasks[taskNum].unmark();
+            } else if(splittedInput[0].equals("todo")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                }
+                Task temp = new ToDos(getTaskName(splittedInput));
+                userTasks[numOfTasks] = temp;
+                numOfTasks++;
+                System.out.println("    Got it. I've added this task:");
+                System.out.println("      " + temp.toString());
+                System.out.println("    Now you have " + numOfTasks + " in the list.");
+            } else if(splittedInput[0].equals("deadline")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                } else if((!input.contains(" /by "))) {
+                    throw new InvalidCommandException();
+                }
+                String tempString = getTaskName(splittedInput);
+                String[] splitDate = tempString.split("/by ");
+                Task temp = new Deadlines(splitDate[0], splitDate[1]);
+                userTasks[numOfTasks] = temp;
+                numOfTasks++;
+                System.out.println("    Got it. I've added this task:");
+                System.out.println("      " + temp.toString());
+                System.out.println("    Now you have " + numOfTasks + " in the list."); 
+            } else if(splittedInput[0].equals("event")) {
+                if(splittedInput.length == 1) {
+                    throw new EmptyCommandException();
+                } else if((!input.contains(" /from ")) || (!input.contains(" /to "))) {
+                    throw new InvalidCommandException();
+                }
+                String tempString = getTaskName(splittedInput);
+                String[] tempOne = tempString.split(" /to ");
+                String[] tempTwo = tempOne[0].split(" /from ");
+                String to = tempOne[1];
+                String from = tempTwo[1];
+                String taskName = tempTwo[0];
+                Task temp = new Events(taskName, from, to);
+                userTasks[numOfTasks] = temp;
+                numOfTasks++;
+                System.out.println("    Got it. I've added this task:");
+                System.out.println("      " + temp.toString());
+                System.out.println("    Now you have " + numOfTasks + " in the list."); 
+            } else {
+                throw new NoCommandException();
+            }
+        } catch (NoCommandException e) {
+            System.out.println("    brotha, what are you typing? i don't understand u");
+        } catch (EmptyCommandException e) {
+            System.out.println("    ooooooh, this cannot be empty lah");
+        } catch (InvalidCommandException e) {
+            System.out.println("    aiya recheck whether this correct format or not aah");
+        } catch (NotInListException e) {
+            System.out.println("    that index not in the list lol");
+        } catch (NumberFormatException e) {
+            System.out.println("    need to be a number");
+        } finally {
+            printLine();
+        }
+    }
+
+    private static void runPain() {
+        while(true) {
+            query();
+        }
+    }
+
     private static void printLine() {
         System.out.println("    ____________________________________________________________");
     }
 
     private static void printList(Task[] taskList, int n) {
         if(n == 0) {
-            System.out.println("NOTHING HERE");
+            System.out.println("    NOTHING HERE");
             return;
         }
         System.out.println("    Here are the tasks in your list:");
@@ -26,67 +126,10 @@ public class Pain {
     }
 
     public static void main(String[] args) {
-        Task[] userTasks = new Task[100];
-        int numOfTasks = 0;
         printLine();
         System.out.println("    Nihao! I'm Pain");
         System.out.println("    Yo want you want");
         printLine();
-        Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        String[] splittedInput = input.split("\\s+"); 
-        printLine();
-        while(true){
-            if(splittedInput[0].equals("bye")) {
-                System.out.println("    Bye. I will definitely see you again");
-                printLine();
-                break;
-            } else if(splittedInput[0].equals("list")) {
-                printList(userTasks, numOfTasks);
-            } else if(splittedInput[0].equals("mark")) {
-                int taskNum = Integer.parseInt(splittedInput[1]) - 1;
-                userTasks[taskNum].mark();
-            } else if(splittedInput[0].equals("unmark")) {
-                int taskNum = Integer.parseInt(splittedInput[1]) - 1;
-                userTasks[taskNum].unmark();
-            } else if(splittedInput[0].equals("todo")) {
-                Task temp = new ToDos(getTaskName(splittedInput));
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
-                System.out.println("    Got it. I've added this task:");
-                System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list.");
-            } else if(splittedInput[0].equals("deadline")) {
-                String tempString = getTaskName(splittedInput);
-                String[] splitDate = tempString.split("/by ");
-                Task temp = new Deadlines(splitDate[0], splitDate[1]);
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
-                System.out.println("    Got it. I've added this task:");
-                System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list."); 
-            } else if(splittedInput[0].equals("event")) {
-                String tempString = getTaskName(splittedInput);
-                String[] tempOne = tempString.split(" /to ");
-                String[] tempTwo = tempOne[0].split(" /from ");
-                String to = tempOne[1];
-                String from = tempTwo[1];
-                String taskName = tempTwo[0];
-                Task temp = new Events(taskName, from, to);
-                userTasks[numOfTasks] = temp;
-                numOfTasks++;
-                System.out.println("    Got it. I've added this task:");
-                System.out.println("      " + temp.toString());
-                System.out.println("    Now you have " + numOfTasks + " in the list."); 
-            }
-            else {
-                System.out.println("NOT A VALID COMMAND");
-            }
-            printLine();
-            input = sc.nextLine();
-            printLine();
-            splittedInput = input.split("\\s+");
-        }
-        sc.close();
+        runPain();
     }
 }
