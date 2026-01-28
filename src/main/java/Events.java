@@ -1,19 +1,31 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Events extends Task {
 
-    private String from;
-    private String to;
+    DateTimeFormatter intputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM d yyyy HH:mm:ss");
+
+    private LocalDateTime from;
+    private LocalDateTime to;
 
     public Events(String task, String from, String to) {
         super(task);
-        this.from = from;
-        this.to = to;
+        this.from = LocalDateTime.parse(from, intputFormatter);
+        this.to = LocalDateTime.parse(to, intputFormatter);
+    }
+
+    public Events(String task, boolean isDone, String from, String to) {
+        super(task, isDone);
+        this.from = LocalDateTime.parse(from, intputFormatter);
+        this.to = LocalDateTime.parse(to, intputFormatter);
     }
     
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return "[E]" + super.toString() + " (from: " + this.from.format(outputFormatter) + " to: " + this.to.format(outputFormatter) + ")";
     }
 
     public String saveText() {
-        return "Event | " + (this.getDone() ? "1" : "0") + " | " + this.getTaskName() + " | " + this.from + " | " + this.to;
+        return "Event | " + (this.getIsDone() ? "1" : "0") + " | " + this.getTaskName() + " | " + this.from.format(intputFormatter) + " | " + this.to.format(intputFormatter);
     }
 }

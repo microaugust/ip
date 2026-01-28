@@ -3,11 +3,15 @@ public class ToDos extends Task{
         super(task);
     }
 
+    public ToDos(String task, boolean isDone) {
+        super(task, isDone);
+    }
+
     public String toString() {
         return "[T]" + super.toString();
     }
 
     public String saveText() {
-        return "ToDo | " + (this.getDone() ? "1" : "0") + " | " + this.getTaskName();
+        return "ToDo | " + (this.getIsDone() ? "1" : "0") + " | " + this.getTaskName();
     }
 }
