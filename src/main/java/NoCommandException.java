@@ -1,3 +1,3 @@
-public class NoCommandException extends Exception{
+public class NoCommandException extends Exception {
     
 }

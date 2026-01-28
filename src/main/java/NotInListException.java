@@ -1,3 +1,3 @@
-public class NotInListException extends Exception{
+public class NotInListException extends Exception {
     
 }

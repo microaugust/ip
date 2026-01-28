@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 
 public class Pain{
 
@@ -36,18 +37,80 @@ public class Pain{
         return task.substring(0, task.length() - 1);
     }
 
-    private static void saveTaskOnHardDisk() throws IOException{
-        FileWriter fw = new FileWriter(PATHNAME);
-        fw.write("Data:" + System.lineSeparator());
+    private static void saveTaskOnHardDisk() throws IOException {
+        File dataText = new File(PATHNAME);
+        FileWriter fw = new FileWriter(dataText);
         for(Task t: userTasks) {
             fw.write(t.saveText() + System.lineSeparator());
         }
         fw.close();
     }
 
+    private static void retrieveTask(Scanner sc) throws IOException {
+        try {
+            while(sc.hasNextLine()) {
+                String parse = sc.nextLine();
+                if(parse.isEmpty()) {
+                    return;
+                }
+                String[] splittedInput= parse.split("\\s*\\|\\s*");
+                switch(splittedInput[0]){
+                case "Task":
+                    if(splittedInput[1].equals("0")) {
+                        userTasks.add(new Task(splittedInput[2], false));    
+                    } else if (splittedInput[1].equals("1")) {
+                        userTasks.add(new Task(splittedInput[2], true));
+                    } else {
+                        throw new CorruptedInputException();
+                    }
+                    break;
+                case "ToDo":
+                    if(splittedInput[1].equals("0")) {
+                        userTasks.add(new ToDos(splittedInput[2], false));    
+                    } else if (splittedInput[1].equals("1")) {
+                        userTasks.add(new ToDos(splittedInput[2], true));
+                    } else {
+                        throw new CorruptedInputException();
+                    }
+                    break;
+                case "Deadline":
+                    if(splittedInput[1].equals("0")) {
+                        userTasks.add(new Deadlines(splittedInput[2], false, splittedInput[3]));    
+                    } else if (splittedInput[1].equals("1")) {
+                        userTasks.add(new Deadlines(splittedInput[2], true, splittedInput[3]));
+                    } else {
+                        throw new CorruptedInputException();
+                    }
+                    break;
+                case "Event":
+                    if(splittedInput[1].equals("0")) {
+                        userTasks.add(new Events(splittedInput[2], false, splittedInput[3], splittedInput[4]));    
+                    } else if (splittedInput[1].equals("1")) {
+                        userTasks.add(new Events(splittedInput[2], true, splittedInput[3], splittedInput[4]));
+                    } else {
+                        throw new CorruptedInputException();
+                    }
+                    break;
+                }
+            }
+        } catch(CorruptedInputException | IndexOutOfBoundsException | DateTimeParseException e) {
+            System.out.println("Corrupted File. New file will be made");
+            FileWriter dataFile = new FileWriter(PATHNAME);
+            dataFile.close();
+            userTasks = new ArrayList<Task>();
+        }
+    }
+
     public static void main(String[] args) throws IOException{
-        File Data = new File("data");
-        Data.mkdirs();
+        File data = new File("data");
+        File dataText = new File(PATHNAME);
+        if(!data.exists()) {
+            data.mkdirs();
+        }
+        if(dataText.exists()) {
+            Scanner scanFile = new Scanner(dataText);
+            retrieveTask(scanFile);
+        }
         printLine();
         System.out.println("    Nihao! I'm Pain");
         System.out.println("    Yo want you want");
@@ -106,7 +169,7 @@ public class Pain{
                         throw new InvalidCommandException();
                     }
                     String deadlineName = getTaskName(splittedInput);
-                    String[] splitDate = deadlineName.split("/by ");
+                    String[] splitDate = deadlineName.split(" /by ");
                     Task deadlineTask = new Deadlines(splitDate[0], splitDate[1]);
                     userTasks.add(deadlineTask);
                     System.out.println("    Got it. I've added this task:");
@@ -160,6 +223,8 @@ public class Pain{
                 System.out.println("    that index not in the list lol");
             } catch (NumberFormatException e) {
                 System.out.println("    need to be a number");
+            } catch (DateTimeParseException e) {
+                System.out.println("    invalid date time format (need to be dd/mm/yyyy hh:mm:ss)");
             } finally {
                 printLine();
             }
