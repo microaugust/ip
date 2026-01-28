@@ -12,4 +12,8 @@ public class Events extends Task {
     public String toString() {
         return "[E]" + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }
+
+    public String saveText() {
+        return "Event | " + (this.getDone() ? "1" : "0") + " | " + this.getTaskName() + " | " + this.from + " | " + this.to;
+    }
 }
