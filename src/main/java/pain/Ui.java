@@ -21,14 +21,14 @@ public class Ui {
         printLine();
     }
 
-    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException{
+    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException {
         String input = sc.nextLine();
         printLine();
         String[] parsedInput = p.parseInput(input);
         return parsedInput;
     }
 
-    public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException{
+    public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException {
         switch(parseInput[0]) {
         case "bye":
             System.out.println("    Bye. I will definitely see you again");

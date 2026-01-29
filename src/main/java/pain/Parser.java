@@ -12,7 +12,7 @@ public class Parser {
         return task.substring(0, task.length() - 1);
     }
 
-    public String[] parseInput(String input) throws InvalidCommandException, EmptyCommandException, NoCommandException{
+    public String[] parseInput(String input) throws InvalidCommandException, EmptyCommandException, NoCommandException {
         String[] splitBySpace = input.split("\\s+"); 
             switch (splitBySpace[0]){
             case "bye":
@@ -21,7 +21,6 @@ public class Parser {
                     throw new InvalidCommandException();
                 }
                 return splitBySpace;
-
             case "mark":
             case "unmark":
             case "delete":
@@ -32,7 +31,6 @@ public class Parser {
                 } 
                 Integer.parseInt(splitBySpace[1]);
                 return splitBySpace;
-
             case "todo":
                 if(splitBySpace.length == 1) {
                     throw new EmptyCommandException();
@@ -40,7 +38,6 @@ public class Parser {
                 String taskName = removeFirstElementAndCombineString(splitBySpace);
                 String[] todoParsed = {splitBySpace[0], taskName};
                 return todoParsed;
-
             case "deadline":
                 if(splitBySpace.length == 1) {
                     throw new EmptyCommandException();
@@ -51,7 +48,6 @@ public class Parser {
                 String[] splitDate = deadlineName.split(" /by ");
                 String[] deadlineParsed  = {splitBySpace[0], splitDate[0], splitDate[1]};
                 return deadlineParsed;
-
             case "event":
                 if(splitBySpace.length == 1) {
                     throw new EmptyCommandException();
@@ -66,7 +62,6 @@ public class Parser {
                 String eventName = tempTwo[0];
                 String[] eventParsed = {splitBySpace[0], eventName, fromDate, toDate};
                 return eventParsed;
-
             default:
                 throw new NoCommandException();
             }

@@ -14,7 +14,7 @@ public class Pain{
 
     static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         File data = new File("data");
         File dataText = new File(PATHNAME);
         Storage taskStorage = new Storage(PATHNAME);
@@ -41,11 +41,9 @@ public class Pain{
                     ui.printOutput(parsedInput, taskList);
                     sc.close();
                     System.exit(0);
-
                 case "list":
                     ui.printOutput(parsedInput, taskList);
                     break;
-
                 case "mark":
                     int taskToMark = Integer.parseInt(parsedInput[1]) - 1;
                     if(taskToMark >= taskList.size()) {
@@ -55,7 +53,6 @@ public class Pain{
                     ui.printOutput(parsedInput, taskList);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 case "unmark":
                     int taskToUnmark = Integer.parseInt(parsedInput[1]) - 1;
                     if(taskToUnmark >= taskList.size()) {
@@ -65,28 +62,24 @@ public class Pain{
                     ui.printOutput(parsedInput, taskList);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 case "todo":
                     Task todoTask = new ToDos(parsedInput[1]);
                     taskList.add(todoTask);
                     ui.printOutput(parsedInput, taskList);                    
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 case "deadline":
                     Task deadlineTask = new Deadlines(parsedInput[1], parsedInput[2]);
                     taskList.add(deadlineTask);
                     ui.printOutput(parsedInput, taskList);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 case "event":
                     Task eventTask = new Events(parsedInput[1], parsedInput[2], parsedInput[3]);
                     taskList.add(eventTask);
                     ui.printOutput(parsedInput, taskList);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 case "delete":
                     int taskToDelete = Integer.parseInt(parsedInput[1]) - 1;
                     if(taskToDelete >= taskList.size()) {
@@ -96,7 +89,6 @@ public class Pain{
                     taskList.delete(taskToDelete);                    
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
-
                 default:
                     throw new NoCommandException();
                 }
