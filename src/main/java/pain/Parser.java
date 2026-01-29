@@ -4,6 +4,12 @@ import java.util.Arrays;
 
 public class Parser {
 
+    /**
+     * Return a String concatentation of every element except the first element.
+     * 
+     * @param splittedInput Input array that was splitted by white space.
+     * @return String concatenation of every element except the first element.
+     */
     public static String removeFirstElementAndCombineString(String[] splittedInput) {
         String task = "";
         for(int i = 1; i < splittedInput.length; i++) {
@@ -12,6 +18,15 @@ public class Parser {
         return task.substring(0, task.length() - 1);
     }
 
+    /**
+     * Return an Array of String of the input being parsed without any delimiter.
+     * 
+     * @param input String input from the user.
+     * @return Array of String of the input parsed without any delimiter.
+     * @throws InvalidCommandException If the command content is invalid.
+     * @throws EmptyCommandException If the command doesn't contain any input when required.
+     * @throws NoCommandException If the command doesn't exist.
+     */
     public String[] parseInput(String input) throws InvalidCommandException, EmptyCommandException, NoCommandException{
         String[] splitBySpace = input.split("\\s+"); 
             switch (splitBySpace[0]){

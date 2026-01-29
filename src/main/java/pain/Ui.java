@@ -14,6 +14,9 @@ public class Ui {
         System.out.println("    ____________________________________________________________");
     }
 
+    /**
+     * Print program starting up text.
+     */
     public void startUp() {
         printLine();
         System.out.println("    Nihao! I'm " + this.name);
@@ -21,6 +24,16 @@ public class Ui {
         printLine();
     }
 
+    /**
+     * Return an Array of String of the input being parsed without any delimiter.
+     * 
+     * @param sc Scanner object.
+     * @param p Parser object.
+     * @return Array of String of the input being parsed without any delimiter.
+     * @throws InvalidCommandException If the command content is invalid.
+     * @throws EmptyCommandException If the command doesn't contain any input when required.
+     * @throws NoCommandException If the command doesn't exist.
+     */
     public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException{
         String input = sc.nextLine();
         printLine();
@@ -28,6 +41,13 @@ public class Ui {
         return parsedInput;
     }
 
+    /**
+     * Print the approrpiate output according the the user input command.
+     * 
+     * @param parseInput String array splitted by whitespace of the user input
+     * @param taskList Current TaskList 
+     * @throws NoCommandException If the command doesn't exist.
+     */
     public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException{
         switch(parseInput[0]) {
         case "bye":

@@ -10,10 +10,22 @@ public class Storage {
 
     private File file;
 
+    /**
+     * Return a new Storage object.
+     * 
+     * @param pathName Path name of the file where the all tasks are stored.
+     * @return new Storage object.
+     */
     public Storage(String pathName) {
         this.file = new File(pathName);
     }
 
+    /**
+     * Return an ArrayList of Task storing the task that was previously saved.
+     * 
+     * @return ArrayList of Task storing the task that was previously saved.
+     * @throws IOException If the saved file is not found.
+     */
     public ArrayList<Task> retrieveTask() throws IOException {
         try {
             Scanner sc = new Scanner(this.file);
@@ -74,6 +86,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Saved current list of task on the hard disk.
+     * 
+     * @param userTasks
+     * @throws IOException If the saved file is not found.
+     */
     public void saveTaskOnHardDisk(TaskList userTasks) throws IOException {
         FileWriter fw = new FileWriter(this.file);
         for(Task t: userTasks.getUserTasks()) {

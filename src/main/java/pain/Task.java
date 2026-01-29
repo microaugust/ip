@@ -4,11 +4,23 @@ public class Task{
     private String task;
     private boolean isDone;
 
+    /**
+     * Return a new Task object.
+     * isDone is false by default.
+     * 
+     * @param task Task name.
+     */
     public Task(String task) {
         this.task = task;
         this.isDone = false;
     }
 
+    /**
+     * Return a new Task object.
+     * 
+     * @param task Task name.
+     * @param Mark the Task being done as true or false.
+     */
     public Task(String task, boolean isDone) {
         this.task = task;
         this.isDone = isDone;
@@ -19,19 +31,25 @@ public class Task{
     }
 
     /**
-     * Prints text saying that this task is done and mark the task as done
+     * Mark the task as being done.
      */
     public void mark() {
         this.isDone = true;
     }
 
     /**
-     * Prints text saying that this task is mark as undone and unmark the task
+     * Mark the task as being not done.
      */
     public void unmark() {
         this.isDone = false;
     }
 
+
+    /**
+     * Return the String format of how this task is saved in the hard disk.
+     * 
+     * @return String format of how this task is saved in the hard disk.
+     */
     public String saveText() {
         return "Task | " + (this.isDone ? "1" : "0") + " | " + this.task;
     }
