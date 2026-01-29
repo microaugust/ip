@@ -9,24 +9,10 @@ public class Pain{
 
     static final String PATHNAME = "data/pain.txt";
 
-    static ArrayList<Task> userTasks = new ArrayList<Task>();
-
     static Scanner sc = new Scanner(System.in);
 
     private static void printLine() {
         System.out.println("    ____________________________________________________________");
-    }
-
-    private static void printList(ArrayList<Task> taskList) {
-        int n = taskList.size();
-        if(n == 0) {
-            System.out.println("    NOTHING HERE");
-            return;
-        }
-        System.out.println("    Here are the tasks in your list:");
-        for(int i = 0; i < n; i++) {
-            System.out.println("    " + (i + 1) + ". " + taskList.get(i).toString());
-        }
     }
 
     private static String getTaskName(String[] input) {
@@ -44,9 +30,13 @@ public class Pain{
         if(!data.exists()) {
             data.mkdirs();
         }
+        TaskList taskList;
         if(taskStorage.exists()) {
-            userTasks = taskStorage.retrieveTask();
+            taskList = new TaskList(taskStorage.retrieveTask());
+        } else {
+            taskList = new TaskList();
         }
+
         printLine();
         System.out.println("    Nihao! I'm Pain");
         System.out.println("    Yo want you want");
@@ -63,40 +53,40 @@ public class Pain{
                     sc.close();
                     System.exit(0);
                 case "list":
-                    printList(userTasks);
+                    System.out.println(taskList.toString());
                     break;
                 case "mark":
                     if(splittedInput.length == 1) {
                         throw new EmptyCommandException();
                     }
                     int taskToMark = Integer.parseInt(splittedInput[1]) - 1;
-                    if(taskToMark >= userTasks.size()) {
+                    if(taskToMark >= taskList.size()) {
                         throw new NotInListException();
                     }
-                    userTasks.get(taskToMark).mark();
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    taskList.get(taskToMark).mark();
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "unmark":
                     if(splittedInput.length == 1) {
                         throw new EmptyCommandException();
                     }
                     int taskToUnmark = Integer.parseInt(splittedInput[1]) - 1;
-                    if(taskToUnmark >= userTasks.size()) {
+                    if(taskToUnmark >= taskList.size()) {
                         throw new NotInListException();
                     }
-                    userTasks.get(taskToUnmark).unmark();
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    taskList.get(taskToUnmark).unmark();
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "todo":
                     if(splittedInput.length == 1) {
                         throw new EmptyCommandException();
                     }
                     Task todoTask = new ToDos(getTaskName(splittedInput));
-                    userTasks.add(todoTask);
+                    taskList.add(todoTask);
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + todoTask.toString());
-                    System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "deadline":
                     if(splittedInput.length == 1) {
@@ -107,11 +97,11 @@ public class Pain{
                     String deadlineName = getTaskName(splittedInput);
                     String[] splitDate = deadlineName.split(" /by ");
                     Task deadlineTask = new Deadlines(splitDate[0], splitDate[1]);
-                    userTasks.add(deadlineTask);
+                    taskList.add(deadlineTask);
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + deadlineTask.toString());
-                    System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "event":
                     if(splittedInput.length == 1) {
@@ -126,25 +116,25 @@ public class Pain{
                     String fromDate = tempTwo[1];
                     String taskName = tempTwo[0];
                     Task eventTask = new Events(taskName, fromDate, toDate);
-                    userTasks.add(eventTask);
+                    taskList.add(eventTask);
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + eventTask.toString());
-                    System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "delete":
                     if(splittedInput.length == 1) {
                         throw new EmptyCommandException();
                     }
                     int taskToDelete = Integer.parseInt(splittedInput[1]);
-                    if(taskToDelete >= userTasks.size()) {
+                    if(taskToDelete >= taskList.size()) {
                         throw new NotInListException();
                     }
                     System.out.println("    Noted. I've removed this task:");
-                    System.out.println("      " + userTasks.get(taskToDelete).toString());
-                    userTasks.remove(taskToDelete);
-                    System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    taskStorage.saveTaskOnHardDisk(userTasks);
+                    System.out.println("      " + taskList.get(taskToDelete).toString());
+                    taskList.delete(taskToDelete);
+                    System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+                    taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 default:
                     throw new NoCommandException();

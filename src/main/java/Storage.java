@@ -74,9 +74,9 @@ public class Storage {
         return new ArrayList<Task>();
     }
 
-    public void saveTaskOnHardDisk(ArrayList<Task> userTasks) throws IOException {
+    public void saveTaskOnHardDisk(TaskList userTasks) throws IOException {
         FileWriter fw = new FileWriter(this.file);
-        for(Task t: userTasks) {
+        for(Task t: userTasks.getUserTasks()) {
             fw.write(t.saveText() + System.lineSeparator());
         }
         fw.close();
