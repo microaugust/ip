@@ -89,6 +89,9 @@ public class Pain{
                     taskList.delete(taskToDelete);                    
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
+                case "find":
+                    ui.printOutput(parsedInput, taskList);
+                    break;
                 default:
                     throw new NoCommandException();
                 }
