@@ -62,16 +62,15 @@ public class Storage {
                     }
                     break;
                 }
-                sc.close();
-                return userTasks;
             }
+            sc.close();
+            return userTasks;
         } catch(CorruptedInputException | IndexOutOfBoundsException | DateTimeParseException e) {
             System.out.println("Corrupted File. New file will be made");
             FileWriter dataFile = new FileWriter(this.file);
             dataFile.close();
             return new ArrayList<Task>();
         }
-        return new ArrayList<Task>();
     }
 
     public void saveTaskOnHardDisk(TaskList userTasks) throws IOException {
