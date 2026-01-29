@@ -34,7 +34,7 @@ public class Ui {
      * @throws EmptyCommandException If the command doesn't contain any input when required.
      * @throws NoCommandException If the command doesn't exist.
      */
-    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException{
+    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException {
         String input = sc.nextLine();
         printLine();
         String[] parsedInput = p.parseInput(input);
@@ -48,7 +48,7 @@ public class Ui {
      * @param taskList Current TaskList 
      * @throws NoCommandException If the command doesn't exist.
      */
-    public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException{
+    public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException {
         switch(parseInput[0]) {
         case "bye":
             System.out.println("    Bye. I will definitely see you again");
