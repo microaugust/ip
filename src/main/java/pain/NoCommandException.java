@@ -1,4 +1,4 @@
-package pain.exception;
+package pain;
 public class NoCommandException extends Exception {
     
 }

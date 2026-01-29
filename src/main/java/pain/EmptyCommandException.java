@@ -1,4 +1,4 @@
-package pain.exception;
+package pain;
 public class EmptyCommandException extends Exception {
     
 }
