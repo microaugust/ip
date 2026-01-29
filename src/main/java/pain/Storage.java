@@ -6,8 +6,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import pain.exception.CorruptedInputException;
-
 public class Storage {
 
     private File file;
