@@ -37,79 +37,15 @@ public class Pain{
         return task.substring(0, task.length() - 1);
     }
 
-    private static void saveTaskOnHardDisk() throws IOException {
-        File dataText = new File(PATHNAME);
-        FileWriter fw = new FileWriter(dataText);
-        for(Task t: userTasks) {
-            fw.write(t.saveText() + System.lineSeparator());
-        }
-        fw.close();
-    }
-
-    private static void retrieveTask(Scanner sc) throws IOException {
-        try {
-            while(sc.hasNextLine()) {
-                String parse = sc.nextLine();
-                if(parse.isEmpty()) {
-                    return;
-                }
-                String[] splittedInput= parse.split("\\s*\\|\\s*");
-                switch(splittedInput[0]){
-                case "Task":
-                    if(splittedInput[1].equals("0")) {
-                        userTasks.add(new Task(splittedInput[2], false));    
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Task(splittedInput[2], true));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
-                    break;
-                case "ToDo":
-                    if(splittedInput[1].equals("0")) {
-                        userTasks.add(new ToDos(splittedInput[2], false));    
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new ToDos(splittedInput[2], true));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
-                    break;
-                case "Deadline":
-                    if(splittedInput[1].equals("0")) {
-                        userTasks.add(new Deadlines(splittedInput[2], false, splittedInput[3]));    
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Deadlines(splittedInput[2], true, splittedInput[3]));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
-                    break;
-                case "Event":
-                    if(splittedInput[1].equals("0")) {
-                        userTasks.add(new Events(splittedInput[2], false, splittedInput[3], splittedInput[4]));    
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Events(splittedInput[2], true, splittedInput[3], splittedInput[4]));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
-                    break;
-                }
-            }
-        } catch(CorruptedInputException | IndexOutOfBoundsException | DateTimeParseException e) {
-            System.out.println("Corrupted File. New file will be made");
-            FileWriter dataFile = new FileWriter(PATHNAME);
-            dataFile.close();
-            userTasks = new ArrayList<Task>();
-        }
-    }
-
     public static void main(String[] args) throws IOException{
         File data = new File("data");
         File dataText = new File(PATHNAME);
+        Storage taskStorage = new Storage(PATHNAME);
         if(!data.exists()) {
             data.mkdirs();
         }
-        if(dataText.exists()) {
-            Scanner scanFile = new Scanner(dataText);
-            retrieveTask(scanFile);
+        if(taskStorage.exists()) {
+            userTasks = taskStorage.retrieveTask();
         }
         printLine();
         System.out.println("    Nihao! I'm Pain");
@@ -138,7 +74,7 @@ public class Pain{
                         throw new NotInListException();
                     }
                     userTasks.get(taskToMark).mark();
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 case "unmark":
                     if(splittedInput.length == 1) {
@@ -149,7 +85,7 @@ public class Pain{
                         throw new NotInListException();
                     }
                     userTasks.get(taskToUnmark).unmark();
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 case "todo":
                     if(splittedInput.length == 1) {
@@ -160,7 +96,7 @@ public class Pain{
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + todoTask.toString());
                     System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 case "deadline":
                     if(splittedInput.length == 1) {
@@ -175,7 +111,7 @@ public class Pain{
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + deadlineTask.toString());
                     System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 case "event":
                     if(splittedInput.length == 1) {
@@ -194,7 +130,7 @@ public class Pain{
                     System.out.println("    Got it. I've added this task:");
                     System.out.println("      " + eventTask.toString());
                     System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 case "delete":
                     if(splittedInput.length == 1) {
@@ -208,7 +144,7 @@ public class Pain{
                     System.out.println("      " + userTasks.get(taskToDelete).toString());
                     userTasks.remove(taskToDelete);
                     System.out.println("    Now you have " + userTasks.size() + " tasks in the list.");
-                    saveTaskOnHardDisk();
+                    taskStorage.saveTaskOnHardDisk(userTasks);
                     break;
                 default:
                     throw new NoCommandException();
