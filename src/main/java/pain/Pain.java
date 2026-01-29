@@ -97,6 +97,9 @@ public class Pain{
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
 
+                case "find":
+                    ui.printOutput(parsedInput, taskList);
+                    break;
                 default:
                     throw new NoCommandException();
                 }

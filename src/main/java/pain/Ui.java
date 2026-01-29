@@ -59,6 +59,11 @@ public class Ui {
             System.out.println("      " + taskList.get(deleteIndex).toString());
             System.out.println("    Now you have " + (taskList.size() - 1) + " tasks in the list.");
             break;
+        case "find":
+            System.out.println("    Here are the matching tasks in your list:");
+            TaskList temp = new TaskList(taskList.find(parseInput[1]));
+            System.out.println(temp.toString());
+            break;
         default:
             throw new NoCommandException();
         }

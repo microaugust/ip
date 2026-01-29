@@ -32,6 +32,22 @@ public class TaskList {
         return this.userTasks;
     }
 
+    /**
+     * Return ArrayList of Task with the specify keyword.
+     * 
+     * @param keyword Keyword to look for.
+     * @return ArratList of Task with the specify keyword
+     */
+    public ArrayList<Task> find(String keyword) {
+        ArrayList<Task> listOfTaskWithKeywords = new ArrayList<Task>();
+        for(Task t: this.userTasks) {
+            if(t.getTaskName().contains(keyword)) {
+                listOfTaskWithKeywords.add(t);
+            }
+        }
+        return listOfTaskWithKeywords;
+    }
+
     public String toString() {
         int n = this.userTasks.size();
         String toReturn = "";

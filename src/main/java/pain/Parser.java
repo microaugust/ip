@@ -67,6 +67,15 @@ public class Parser {
                 String[] eventParsed = {splitBySpace[0], eventName, fromDate, toDate};
                 return eventParsed;
 
+            case "find":
+                if(splitBySpace.length == 1) {
+                    throw new EmptyCommandException();
+                } else if(splitBySpace.length > 2) {
+                    throw new InvalidCommandException();
+                }
+                String[] findParsed = {splitBySpace[0], splitBySpace[1]};
+                return findParsed;
+
             default:
                 throw new NoCommandException();
             }

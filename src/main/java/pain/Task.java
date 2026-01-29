@@ -40,7 +40,7 @@ public class Task{
         return this.isDone;
     }
 
-    protected String getTaskName() {
+    public String getTaskName() {
         return this.task;
     }
 }
