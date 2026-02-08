@@ -1,7 +1,10 @@
 package pain;
 import java.util.Scanner;
-import java.util.ArrayList;
 
+/**
+ * Handles all user interaction for Pain.
+ * This class is responsible for printing user-facing messages and for reading input.
+ */
 public class Ui {
 
     private String name;
@@ -26,7 +29,7 @@ public class Ui {
 
     /**
      * Return an Array of String of the input being parsed without any delimiter.
-     * 
+     *
      * @param sc Scanner object.
      * @param p Parser object.
      * @return Array of String of the input being parsed without any delimiter.
@@ -34,7 +37,8 @@ public class Ui {
      * @throws EmptyCommandException If the command doesn't contain any input when required.
      * @throws NoCommandException If the command doesn't exist.
      */
-    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException, EmptyCommandException, NoCommandException {
+    public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException,
+            EmptyCommandException, NoCommandException {
         String input = sc.nextLine();
         printLine();
         String[] parsedInput = p.parseInput(input);
@@ -43,9 +47,9 @@ public class Ui {
 
     /**
      * Print the approrpiate output according the the user input command.
-     * 
+     *
      * @param parseInput String array splitted by whitespace of the user input
-     * @param taskList Current TaskList 
+     * @param taskList Current TaskList
      * @throws NoCommandException If the command doesn't exist.
      */
     public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException {

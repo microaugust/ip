@@ -1,18 +1,19 @@
 package pain;
-import java.util.Scanner;
-
-import java.util.ArrayList;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
+import java.util.Scanner;
 
-public class Pain{
+/**
+ * Main program for the Pain application.
+ * Initializes storage, parser, UI, and the task list (loading tasks from disk if available).
+ */
+public class Pain {
 
     static final String PATHNAME = "data/pain.txt";
     static final String NAME = "Pain";
 
-    static Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
         File data = new File("data");
@@ -21,11 +22,11 @@ public class Pain{
         Parser parser = new Parser();
         Ui ui = new Ui(NAME);
 
-        if(!data.exists()) {
+        if (!data.exists()) {
             data.mkdirs();
         }
         TaskList taskList;
-        if(taskStorage.exists()) {
+        if (taskStorage.exists()) {
             taskList = new TaskList(taskStorage.retrieveTask());
         } else {
             taskList = new TaskList();
@@ -33,20 +34,21 @@ public class Pain{
 
         ui.startUp();
 
-        while(true) {
-            try{
+        while (true) {
+            try {
                 String[] parsedInput = ui.getAndParseInput(sc, parser);
                 switch(parsedInput[0]) {
                 case "bye":
                     ui.printOutput(parsedInput, taskList);
                     sc.close();
                     System.exit(0);
+                    break;
                 case "list":
                     ui.printOutput(parsedInput, taskList);
                     break;
                 case "mark":
                     int taskToMark = Integer.parseInt(parsedInput[1]) - 1;
-                    if(taskToMark >= taskList.size()) {
+                    if (taskToMark >= taskList.size()) {
                         throw new NotInListException();
                     }
                     taskList.get(taskToMark).mark();
@@ -55,7 +57,7 @@ public class Pain{
                     break;
                 case "unmark":
                     int taskToUnmark = Integer.parseInt(parsedInput[1]) - 1;
-                    if(taskToUnmark >= taskList.size()) {
+                    if (taskToUnmark >= taskList.size()) {
                         throw new NotInListException();
                     }
                     taskList.get(taskToUnmark).unmark();
@@ -65,7 +67,7 @@ public class Pain{
                 case "todo":
                     Task todoTask = new ToDos(parsedInput[1]);
                     taskList.add(todoTask);
-                    ui.printOutput(parsedInput, taskList);                    
+                    ui.printOutput(parsedInput, taskList);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "deadline":
@@ -82,11 +84,11 @@ public class Pain{
                     break;
                 case "delete":
                     int taskToDelete = Integer.parseInt(parsedInput[1]) - 1;
-                    if(taskToDelete >= taskList.size()) {
+                    if (taskToDelete >= taskList.size()) {
                         throw new NotInListException();
                     }
                     ui.printOutput(parsedInput, taskList);
-                    taskList.delete(taskToDelete);                    
+                    taskList.delete(taskToDelete);
                     taskStorage.saveTaskOnHardDisk(taskList);
                     break;
                 case "find":
