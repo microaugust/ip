@@ -1,5 +1,10 @@
 package pain;
-public class ToDos extends Task{
+
+/**
+ * Represents a simple to-do task that has a description and a completion status.
+ * This type of task doesn't contain a date/time.
+ */
+public class ToDos extends Task {
     public ToDos(String task) {
         super(task);
     }
@@ -14,7 +19,7 @@ public class ToDos extends Task{
 
     /**
      * Return the String format of how this task is saved in the hard disk.
-     * 
+     *
      * @return String format of how this task is saved in the hard disk.
      */
     public String saveText() {

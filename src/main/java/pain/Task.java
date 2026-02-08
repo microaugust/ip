@@ -1,5 +1,9 @@
 package pain;
-public class Task{
+
+/**
+ * Represents a basic task with a description and a completion status.
+ */
+public class Task {
 
     private String task;
     private boolean isDone;
@@ -7,7 +11,7 @@ public class Task{
     /**
      * Return a new Task object.
      * isDone is false by default.
-     * 
+     *
      * @param task Task name.
      */
     public Task(String task) {
@@ -17,7 +21,7 @@ public class Task{
 
     /**
      * Return a new Task object.
-     * 
+     *
      * @param task Task name.
      * @param Mark the Task being done as true or false.
      */
@@ -47,14 +51,14 @@ public class Task{
 
     /**
      * Return the String format of how this task is saved in the hard disk.
-     * 
+     *
      * @return String format of how this task is saved in the hard disk.
      */
     public String saveText() {
         return "Task | " + (this.isDone ? "1" : "0") + " | " + this.task;
     }
 
-    protected boolean getIsDone() {
+    public boolean getIsDone() {
         return this.isDone;
     }
 
