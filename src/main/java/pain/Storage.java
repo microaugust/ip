@@ -42,40 +42,16 @@ public class Storage {
                 String[] splittedInput = parse.split("\\s*\\|\\s*");
                 switch(splittedInput[0]) {
                 case "Task":
-                    if (splittedInput[1].equals("0")) {
-                        userTasks.add(new Task(splittedInput[2], false));
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Task(splittedInput[2], true));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
+                    userTasks = addTask(userTasks, splittedInput);
                     break;
                 case "ToDo":
-                    if (splittedInput[1].equals("0")) {
-                        userTasks.add(new ToDos(splittedInput[2], false));
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new ToDos(splittedInput[2], true));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
+                    userTasks = addToDo(userTasks, splittedInput);
                     break;
                 case "Deadline":
-                    if (splittedInput[1].equals("0")) {
-                        userTasks.add(new Deadlines(splittedInput[2], false, splittedInput[3]));
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Deadlines(splittedInput[2], true, splittedInput[3]));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
+                    userTasks = addDeadline(userTasks, splittedInput);
                     break;
                 case "Event":
-                    if (splittedInput[1].equals("0")) {
-                        userTasks.add(new Events(splittedInput[2], false, splittedInput[3], splittedInput[4]));
-                    } else if (splittedInput[1].equals("1")) {
-                        userTasks.add(new Events(splittedInput[2], true, splittedInput[3], splittedInput[4]));
-                    } else {
-                        throw new CorruptedInputException();
-                    }
+                    userTasks = addEvent(userTasks, splittedInput);
                     break;
                 default:
                     break;
@@ -107,5 +83,52 @@ public class Storage {
 
     public boolean exists() {
         return this.file.exists();
+    }
+
+    private static ArrayList<Task> addTask(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
+        if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
+            throw new CorruptedInputException();
+        }
+        if (tokens[1].equals("0")) {
+            lst.add(new Task(tokens[2], false));
+        } else if (splittedInput[1].equals("1")) {
+            lst.add(new Task(tokens[2], true));
+        }
+        return lst;
+    }
+
+    private static ArrayList<Task> addToDo(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
+        if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
+            throw new CorruptedInputException();
+        }
+        if (tokens[1].equals("0")) {
+            lst.add(new ToDos(tokens[2], false));
+        } else if (tokens[1].equals("1")) {
+            lst.add(new ToDos(tokens[2], true));
+        }
+        return lst;
+    }
+
+    private static ArrayList<Task> addDeadline(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
+        if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
+            throw new CorruptedInputException();
+        }
+        if (tokens[1].equals("0")) {
+            lst.add(new Deadlines(tokens[2], false, tokens[3]));
+        } else if (tokens[1].equals("1")) {
+            lst.add(new Deadlines(tokens[2], true, tokens[3]));
+        }
+        return lst;
+    }
+
+    private static ArrayList<Task> addEvent(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
+        if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
+            throw new CorruptedInputException();
+        } 
+        if (splittedInput[1].equals("0")) {
+            userTasks.add(new Events(splittedInput[2], false, splittedInput[3], splittedInput[4]));
+        } else if (splittedInput[1].equals("1")) {
+            userTasks.add(new Events(splittedInput[2], true, splittedInput[3], splittedInput[4]));
+        }
     }
 }

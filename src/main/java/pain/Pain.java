@@ -10,11 +10,18 @@ import java.util.Scanner;
  */
 public class Pain {
 
-    static final String PATHNAME = "data/pain.txt";
-    static final String NAME = "Pain";
+    private static final String PATHNAME = "data/pain.txt";
+    private static final String NAME = "Pain";
 
-    private static Scanner sc = new Scanner(System.in);
+    private static final Ui ui = new Ui("Pain");
 
+    private static Scanner sc = new Scanner(System.in); // i think don't need this anymore
+
+    public String getResponse(String input) {
+        
+        return "ARGHHHHH";
+    }
+    /*
     public static void main(String[] args) throws IOException {
         File data = new File("data");
         File dataText = new File(PATHNAME);
@@ -34,7 +41,7 @@ public class Pain {
 
         ui.startUp();
 
-        while (true) {
+        while (true) { //PRINT OUTPUT RETURN A STRING NOW
             try {
                 String[] parsedInput = ui.getAndParseInput(sc, parser);
                 switch(parsedInput[0]) {
@@ -118,4 +125,5 @@ public class Pain {
             }
         }
     }
+    */
 }

@@ -58,13 +58,13 @@ public class TaskList {
      */
     public String toString() {
         int n = this.userTasks.size();
-        String toReturn = "";
         if (n == 0) {
-            return "    NOTHING HERE";
+            return "NOTHING HERE";
         }
-        toReturn += "    Here are the tasks in your list:";
+        String toReturn = "";
+        toReturn += "Here are the tasks in your list:";
         for (int i = 0; i < n; i++) {
-            toReturn += "\n    " + (i + 1) + ". " + this.userTasks.get(i).toString();
+            toReturn += "\n" + (i + 1) + ". " + this.userTasks.get(i).toString();
         }
         return toReturn;
     }

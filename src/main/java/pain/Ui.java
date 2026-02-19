@@ -13,18 +13,11 @@ public class Ui {
         this.name = name;
     }
 
-    public void printLine() {
-        System.out.println("    ____________________________________________________________");
-    }
-
     /**
      * Print program starting up text.
      */
-    public void startUp() {
-        printLine();
-        System.out.println("    Nihao! I'm " + this.name);
-        System.out.println("    Yo want you want");
-        printLine();
+    public String startUp() {
+        return "Nihao! I'm " + this.name + "\nWhat you want";
     }
 
     /**
@@ -40,7 +33,6 @@ public class Ui {
     public String[] getAndParseInput(Scanner sc, Parser p) throws InvalidCommandException,
             EmptyCommandException, NoCommandException {
         String input = sc.nextLine();
-        printLine();
         String[] parsedInput = p.parseInput(input);
         return parsedInput;
     }
@@ -52,45 +44,33 @@ public class Ui {
      * @param taskList Current TaskList
      * @throws NoCommandException If the command doesn't exist.
      */
-    public void printOutput(String[] parseInput, TaskList taskList) throws NoCommandException {
+    public String generateOutput(String[] parseInput, TaskList taskList) throws NoCommandException {
         switch(parseInput[0]) {
         case "bye":
-            System.out.println("    Bye. I will definitely see you again");
-            break;
+            return "Bye. I will definitely see you again";
         case "list":
-            System.out.println(taskList.toString());
-            break;
+            return taskList.toString();
         case "mark":
             int markIndex = Integer.parseInt(parseInput[1]) - 1;
-            System.out.println("    Nice! I've marked this task as done:");
-            System.out.println("      " + taskList.get(markIndex).toString());
-            break;
+            return "Nice! I've marked this task as done:\n" + taskList.get(markIndex).toString();
         case "unmark":
-            int unmarkIndex = Integer.parseInt(parseInput[1]) - 1;
-            System.out.println("    OK, I've marked this task as not done yet:");
-            System.out.println("      " + taskList.get(unmarkIndex).toString());
-            break;
-        case "todo":
-        case "deadline":
-        case "event":
-            System.out.println("    Got it. I've added this task:");
-            System.out.println("      " + taskList.get(taskList.size() - 1).toString());
-            System.out.println("    Now you have " + taskList.size() + " tasks in the list.");
+            return "OK, I've marked this task as not done yet:\n" + taskList.get(unmarkIndex).toString();
+        case "todo", "deadline", "event":
+            String addedTask = taskList.get(taskList.size() - 1).toString();
+            return "Got it. I've added this task:\n" + addedTask + 
+                    "\nNow you have " + taskList.size() + " tasks in the list.";
             break;
         case "delete":
             int deleteIndex = Integer.parseInt(parseInput[1]) - 1;
-            System.out.println("    Noted. I've removed this task:");
-            System.out.println("      " + taskList.get(deleteIndex).toString());
-            System.out.println("    Now you have " + (taskList.size() - 1) + " tasks in the list.");
+            return "Noted. I've removed this task:\n" + taskList.get(deleteIndex).toString() + 
+                    "\nNow you have " + (taskList.size() - 1) + " tasks in the list.";
             break;
         case "find":
-            System.out.println("    Here are the matching tasks in your list:");
-            TaskList temp = new TaskList(taskList.find(parseInput[1]));
-            System.out.println(temp.toString());
+            TaskList foundList = new TaskList(taskList.find(parseInput[1]));
+            return "Here are the matching tasks in your list:\n" + foundList.toString();
             break;
         default:
             throw new NoCommandException();
         }
-        printLine();
     }
 }
