@@ -85,6 +85,14 @@ public class Storage {
         return this.file.exists();
     }
 
+    /**
+     * Adds a Task to the given task list based on the provided parsed tokens
+     *
+     * @param lst the task list to append to
+     * @param tokens the parsed input tokens containing task status and description, tokens[1] = "0" or "1" and tokesn[2] = taskDescription
+     * @return the same list instance after the task is added
+     * @throws CorruptedInputException if tokens[1] is not "0" or "1"
+     */
     private static ArrayList<Task> addTask(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
         if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
             throw new CorruptedInputException();
@@ -97,6 +105,14 @@ public class Storage {
         return lst;
     }
 
+    /**
+     * Adds a ToDos to the given task list based on the provided parsed tokens
+     *
+     * @param lst the task list to append to
+     * @param tokens the parsed input tokens containing task status and description, tokens[1] = "0" or "1" and tokesn[2] = taskDescription
+     * @return the same list instance after the task is added
+     * @throws CorruptedInputException if tokens[1] is not "0" or "1"
+     */
     private static ArrayList<Task> addToDo(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
         if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
             throw new CorruptedInputException();
@@ -109,6 +125,14 @@ public class Storage {
         return lst;
     }
 
+    /**
+     * Adds a Deadline to the given task list based on the provided parsed tokens
+     *
+     * @param lst the task list to append to
+     * @param tokens the parsed input tokens containing task status and description, tokens[1] = "0" or "1", tokesn[2] = taskDescription, and token[3] = deadlineDateTime
+     * @return the same list instance after the task is added
+     * @throws CorruptedInputException if tokens[1] is not "0" or "1"
+     */
     private static ArrayList<Task> addDeadline(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
         if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
             throw new CorruptedInputException();
@@ -121,6 +145,14 @@ public class Storage {
         return lst;
     }
 
+    /**
+     * Adds a Event to the given task list based on the provided parsed tokens
+     *
+     * @param lst the task list to append to
+     * @param tokens the parsed input tokens containing task status and description, tokens[1] = "0" or "1", tokesn[2] = taskDescription, token[3] = eventStartDateTime, tokens[4] = eventEndDateTime
+     * @return the same list instance after the task is added
+     * @throws CorruptedInputException if tokens[1] is not "0" or "1"
+     */
     private static ArrayList<Task> addEvent(ArrayList<Task> lst, String[] tokens) throws CorruptedInputException {
         if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
             throw new CorruptedInputException();
