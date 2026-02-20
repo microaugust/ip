@@ -91,7 +91,7 @@ public class Storage {
         }
         if (tokens[1].equals("0")) {
             lst.add(new Task(tokens[2], false));
-        } else if (splittedInput[1].equals("1")) {
+        } else if (tokens[1].equals("1")) {
             lst.add(new Task(tokens[2], true));
         }
         return lst;
@@ -125,10 +125,11 @@ public class Storage {
         if (!tokens[1].equals("0") && !tokens[1].equals("1")) {
             throw new CorruptedInputException();
         } 
-        if (splittedInput[1].equals("0")) {
-            userTasks.add(new Events(splittedInput[2], false, splittedInput[3], splittedInput[4]));
-        } else if (splittedInput[1].equals("1")) {
-            userTasks.add(new Events(splittedInput[2], true, splittedInput[3], splittedInput[4]));
+        if (tokens[1].equals("0")) {
+            lst.add(new Events(tokens[2], false, tokens[3], tokens[4]));
+        } else if (tokens[1].equals("1")) {
+            lst.add(new Events(tokens[2], true, tokens[3], tokens[4]));
         }
+        return lst;
     }
 }

@@ -22,8 +22,9 @@ public class Main extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MainWindow>getController().setPain(pain);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setPain(pain); 
             stage.show();
+            pain.retrieveStorage();
         } catch (IOException e) {
             e.printStackTrace();
         }

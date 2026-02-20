@@ -42,7 +42,12 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
-        String response = pain.getResponse(input);
+        String response;
+        try {
+            response = pain.getResponse(input);
+        } catch (Exception e) {
+            response = "this didn't work";
+        }
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getPainDialog(response, dukeImage)
