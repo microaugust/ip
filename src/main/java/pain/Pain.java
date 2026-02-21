@@ -46,32 +46,38 @@ public class Pain {
         case "list":
             break;
         case "mark":
+            assert parsedInput.length == 2: "Invalid mark command";
             int taskToMark = Integer.parseInt(parsedInput[1]) - 1;
             taskList.get(taskToMark).mark();
             taskStorage.saveTaskOnHardDisk(taskList);
             break;
-        case "unmark": 
+        case "unmark":
+            assert parsedInput.length == 2: "Invalid unmark command"; 
             int taskToUnmark = Integer.parseInt(parsedInput[1]) - 1;
             taskList.get(taskToUnmark).unmark();
             taskStorage.saveTaskOnHardDisk(taskList);
             break;
         case "todo":
+            assert parsedInput.length == 2: "Invalid todo command";
             Task todoTask = new ToDos(parsedInput[1]);
             taskList.add(todoTask);
             taskStorage.saveTaskOnHardDisk(taskList); 
             break;
         case "deadline":
+            assert parsedInput.length == 3: "Invalid deadline command";
             Task deadlineTask = new Deadlines(parsedInput[1], parsedInput[2]);
             taskList.add(deadlineTask);
             taskStorage.saveTaskOnHardDisk(taskList);
             break;
         case "event":
+            assert parsedInput.length == 4: "Invalid event command";
             Task eventTask = new Events(parsedInput[1], parsedInput[2], parsedInput[3]);
             taskList.add(eventTask);
             taskStorage.saveTaskOnHardDisk(taskList);
             break;
         case "delete":
-           int taskToDelete = Integer.parseInt(parsedInput[1]) - 1;
+            assert parsedInput.length == 2: "Invalid delete command";
+            int taskToDelete = Integer.parseInt(parsedInput[1]) - 1;
             if (taskToDelete >= taskList.size()) {
                 throw new NotInListException();
             }
@@ -79,6 +85,7 @@ public class Pain {
             taskStorage.saveTaskOnHardDisk(taskList);
             break;
         case "find":
+            assert parsedInput.length == 2: "Invalid find command";
             break;
         default:
             break;

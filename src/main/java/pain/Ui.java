@@ -66,7 +66,7 @@ public class Ui {
                     "\nNow you have " + (taskList.size() - 1) + " tasks in the list.";
         case "find":
             TaskList foundList = new TaskList(taskList.find(parseInput[1]));
-            return "Here are the matching tasks in your list:\n" + foundList.toString();
+            return "Here are the matching tasks in your list:\n" + foundList.toStringSkipFirstLine();
         default:
             throw new NoCommandException();
         }
