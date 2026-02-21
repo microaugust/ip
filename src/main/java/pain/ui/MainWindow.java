@@ -33,6 +33,7 @@ public class MainWindow extends AnchorPane {
     /** Injects the Duke instance */
     public void setPain(Pain p) {
         pain = p;
+        startUp();
     }
 
     /**
@@ -53,5 +54,10 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getPainDialog(response, dukeImage)
         );
         userInput.clear();
+    }
+
+    @FXML
+    public void startUp() {
+        dialogContainer.getChildren().add(DialogBox.getPainDialog(pain.startUp(), dukeImage));
     }
 }

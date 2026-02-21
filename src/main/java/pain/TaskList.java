@@ -5,6 +5,9 @@ import java.util.ArrayList;
  */
 public class TaskList {
 
+    private static final String EMPTY_TASKLIST_OUTPUT = "NOTHING HERE";
+    private static final String TASKLIST_OUTPUT_START = "Here are the tasks in your list:";
+
     private ArrayList<Task> userTasks;
 
     public TaskList() {
@@ -59,10 +62,9 @@ public class TaskList {
     public String toString() {
         int n = this.userTasks.size();
         if (n == 0) {
-            return "NOTHING HERE";
+            return EMPTY_TASKLIST_OUTPUT;
         }
-        String toReturn = "";
-        toReturn += "Here are the tasks in your list:";
+        String toReturn = TASKLIST_OUTPUT_START;
         for (int i = 0; i < n; i++) {
             toReturn += "\n" + (i + 1) + ". " + this.userTasks.get(i).toString();
         }
