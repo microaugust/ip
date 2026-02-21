@@ -68,5 +68,25 @@ public class TaskList {
         }
         return toReturn;
     }
+
+     /**
+     * Returns a formatted string representation of just the task in the task list.
+     *
+     * @return A String representation of the tasks in this list.
+     */
+    public String toStringSkipFirstLine() {
+        int n = this.userTasks.size();
+        if (n == 0) {
+            return "NOTHING HERE";
+        }
+        String toReturn = "";
+        for (int i = 0; i < n; i++) {
+            if(i != 0) {
+                toReturn += "\n";
+            }
+            toReturn += (i + 1) + ". " + this.userTasks.get(i).toString();
+        }
+        return toReturn;
+    }
 }
 
