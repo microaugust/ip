@@ -14,7 +14,7 @@ import pain.Pain;
 public class Main extends Application {
 
     private Pain pain = new Pain();
-
+    
     @Override
     public void start(Stage stage) {
         try {

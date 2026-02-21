@@ -14,7 +14,7 @@ public class Ui {
     }
 
     /**
-     * Print program starting up text.
+     * Return program starting up text.
      */
     public String startUp() {
         return "Nihao! I'm " + this.name + "\nWhat you want";
@@ -38,7 +38,7 @@ public class Ui {
     }
 
     /**
-     * Print the approrpiate output according the the user input command.
+     * Return the approrpiate output according the the user input command.
      *
      * @param parseInput String array splitted by whitespace of the user input
      * @param taskList Current TaskList
