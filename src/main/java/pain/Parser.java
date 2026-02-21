@@ -52,6 +52,13 @@ public class Parser {
         return task.substring(0, task.length() - 1);
     }
 
+    /**
+     * Validates commands that must contain exactly one token (e.g., "bye", "list").
+     *
+     * @param String[] tokens, the parsed user input.
+     * @return The splitted input array.
+     * @throws InvalidCommandException If extra tokens are present.
+     */
     private static String[] parseSingleTokenCommand(String[] tokens) throws InvalidCommandException {
         if (tokens.length > 1) {
             throw new InvalidCommandException();
@@ -59,6 +66,15 @@ public class Parser {
         return tokens;
     }
 
+    /**
+     * Validates commands that require exactly one integer argument (e.g., "mark 2", "unmark 3", "delete 1").
+     *
+     * @param String[] tokens, the parsed user input.
+     * @return The splitted input array.
+     * @throws EmptyCommandException If the integer argument is missing.
+     * @throws InvalidCommandException If too many tokens are provided.
+     * @throws NumberFormatException If the second token is not a valid integer.
+     */
     private static String[] parseSecondTokenIntegerCommand(String[] tokens) throws EmptyCommandException, InvalidCommandException, NumberFormatException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
@@ -69,6 +85,13 @@ public class Parser {
         return tokens;
     }
 
+    /**
+     * Parses a ToDos command into the format: {"todo", "<task description>"}.
+     *
+     * @param String[] tokens, the parsed user input.
+     * @return A normalized command array containing the "task" and task description.
+     * @throws EmptyCommandException If the task description is missing.
+     */
     private static String[] parseToDoCommand(String[] tokens) throws EmptyCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
@@ -78,6 +101,17 @@ public class Parser {
         return todoParsed;
     }
 
+    /**
+     * Parses a Deadlines command into the format:
+     * {"deadline", "<task description>", "</by date/time>"}.
+     * The input must contain the delimiter {" /by "}.
+     *
+     * @param String[] tokens, the parsed user input.
+     * @param input Original (un-split) user input string, used to check delimiters.
+     * @return A normalized command array containing command word, task description, and deadline.
+     * @throws EmptyCommandException If the task description is missing.
+     * @throws InvalidCommandException If " \by " us not present in the input.
+     */
     private static String[] parseDeadlineCommand(String[] tokens, String input) throws EmptyCommandException, InvalidCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
@@ -90,6 +124,17 @@ public class Parser {
         return deadlineParsed;
     }
 
+    /**
+     * Parses an Events command into the format:
+     * {"event", "<event name>", "<from date/time>", "<to date/time>"}.
+     * The input must contain the delimiters {" /from "} and {" /to "}.
+     *
+     * @param String[] tokens, the parsed user input.
+     * @param input Original (un-split) user input string, used to check delimiters.
+     * @return A normalized command array containing command word, event name, start time, and end time.
+     * @throws EmptyCommandException If the event name is missing.
+     * @throws InvalidCommandException If {" /from "} or {" /to "} is missing in the input.
+     */
     private static String[] parseEventCommand(String[] tokens, String input) throws EmptyCommandException, InvalidCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
@@ -106,6 +151,14 @@ public class Parser {
         return eventParsed;
     }
 
+    /**
+     * Parses a find command into the format: {"find", "<keyword>"}.
+     *
+     * @param String[] tokens, the parsed user input.
+     * @return A normalized command array containing the command word and search keyword.
+     * @throws EmptyCommandException If the keyword is missing.
+     * @throws InvalidCommandException If more than one keyword is provided.
+     */
     private static String[] parseFindCommand(String[] tokens) throws EmptyCommandException, InvalidCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
