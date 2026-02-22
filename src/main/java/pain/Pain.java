@@ -24,9 +24,15 @@ public class Pain {
     private TaskList taskList;
     private Storage taskStorage;
 
+    /**
+     * Initializes application storage on hard disk and task list using data on disk if available.
+     * Load tasks from disk into a taskList, if failed then, taskList will be empty.
+     *
+     * @throws IOException if an I/O error occurs while accessing the storage file
+     *                     or loading tasks from disk.
+     */
     public void retrieveStorage() throws IOException {
         File data = new File("data");
-        File dataText = new File(PATHNAME);
         this.taskStorage = new Storage(PATHNAME);
         if (!data.exists()) {
             data.mkdirs();
