@@ -48,7 +48,6 @@ public class Task {
         this.isDone = false;
     }
 
-
     /**
      * Return the String format of how this task is saved in the hard disk.
      *
