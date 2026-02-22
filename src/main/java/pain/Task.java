@@ -57,6 +57,11 @@ public class Task {
         return "Task | " + (this.isDone ? "1" : "0") + " | " + this.task;
     }
 
+    /**
+     * Returns whether this task is marked as done.
+     *
+     * @return true if the task is done, false otherwise.
+     */
     public boolean getIsDone() {
         return this.isDone;
     }
