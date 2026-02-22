@@ -38,6 +38,14 @@ public class TaskList {
         return this.userTasks;
     }
 
+    /**
+     * Checks whether the task list already contains a task with the same description
+     * as the given task.
+     *
+     * @param addedTask the task to check for duplicates against
+     * @return true if a task with the same description already exists in the list,
+     *         false otherwise
+     */
     public boolean containsDuplicate(Task addedTask) {
         for (Task t: this.userTasks) {
             if (addedTask.isSameTask(t)) {
