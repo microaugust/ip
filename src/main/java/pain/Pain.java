@@ -12,9 +12,14 @@ public class Pain {
 
     private static final String PATHNAME = "data/pain.txt";
     private static final String NAME = "Pain";
-    private static final Ui ui = new Ui("Pain");
+    private static final Ui ui = new Ui(NAME);
+    private static final String INVALID_COMMAND_OUTPUT = "The command structure is invalid";
+    private static final String NO_COMMAND_OUTPUT = "The command doesn't exist";
+    private static final String EMPTY_COMMAND_OUTPUT = "This command need some arguments";
+    private static final String NOT_IN_LIST_OUTPUT = "That task doesn't exist";
+    private static final String NOT_INTEGER_ARGUMENT_OUTPUT = "Argument must be an integer";
+    private static final String OTHER_ERROR = "SORRY AN ERROR JUST OCCUR";
 
-    private static Scanner sc = new Scanner(System.in); // i think don't need this anymore
     private final Parser parser = new Parser();
     private TaskList taskList;
     private Storage taskStorage;
@@ -37,91 +42,135 @@ public class Pain {
         return ui.startUp();
     }
 
-    public String getResponse(String input) throws IOException, InvalidCommandException, NoCommandException, EmptyCommandException, NotInListException {
-        String[] parsedInput = parser.parseInput(input);
-        String output = "";
-        switch(parsedInput[0]) {
-        //add error handling later
-        case "bye":
-            System.exit(0);
-        case "list":
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "mark":
-            assert parsedInput.length == 2: "Invalid mark command";
-            int taskToMark = Integer.parseInt(parsedInput[1]) - 1;
-            this.taskList.get(taskToMark).mark();
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "unmark":
-            assert parsedInput.length == 2: "Invalid unmark command"; 
-            int taskToUnmark = Integer.parseInt(parsedInput[1]) - 1;
-            this.taskList.get(taskToUnmark).unmark();
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "todo":
-            assert parsedInput.length == 2: "Invalid todo command";
-            Task todoTask = new ToDos(parsedInput[1]);
-            if (this.taskList.containsDuplicate(todoTask)) {
-                output = duplicateTaskMessage(todoTask);
-                this.taskList.add(todoTask);
-                this.taskStorage.saveTaskOnHardDisk(this.taskList);
-                break;
+    public String getResponse(String input) {
+        try {
+            String[] parsedInput = parser.parseInput(input);
+            switch(parsedInput[0]) {
+            //add error handling later
+            case "bye":
+                System.exit(0);
+            case "list":
+                return handleListCommand(parsedInput);
+            case "mark":
+                return handleMarkCommand(parsedInput);
+            case "unmark":
+                return handleUnmarkCommand(parsedInput);
+            case "todo":
+                return handleToDoCommand(parsedInput);
+            case "deadline":
+                return handleDeadlineCommand(parsedInput);
+            case "event":
+                return handleEventCommand(parsedInput);
+            case "delete":
+                return handleDeleteCommand(parsedInput);
+            case "find":
+                return handleFindCommand(parsedInput);
+            default:
+                throw new NoCommandException();
             }
-            this.taskList.add(todoTask);
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "deadline":
-            assert parsedInput.length == 3: "Invalid deadline command";
-            Task deadlineTask = new Deadlines(parsedInput[1], parsedInput[2]);
-            if (this.taskList.containsDuplicate(deadlineTask)) {
-                output = duplicateTaskMessage(deadlineTask);
-                this.taskList.add(deadlineTask);
-                this.taskStorage.saveTaskOnHardDisk(this.taskList);
-                break;
-            }
-            this.taskList.add(deadlineTask);
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "event":
-            assert parsedInput.length == 4: "Invalid event command";
-            Task eventTask = new Events(parsedInput[1], parsedInput[2], parsedInput[3]);
-            if (this.taskList.containsDuplicate(eventTask)) {
-                output = duplicateTaskMessage(eventTask);
-                this.taskList.add(eventTask);
-                this.taskStorage.saveTaskOnHardDisk(this.taskList);
-                break;
-            }
-            this.taskList.add(eventTask);
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        case "delete":
-            assert parsedInput.length == 2: "Invalid delete command";
-            int taskToDelete = Integer.parseInt(parsedInput[1]) - 1;
-            if (taskToDelete > this.taskList.size()) {
-                throw new NotInListException();
-            }
-            output = ui.generateOutput(parsedInput, taskList);
-            this.taskList.delete(taskToDelete);
-            this.taskStorage.saveTaskOnHardDisk(this.taskList);
-            break;
-        case "find":
-            assert parsedInput.length == 2: "Invalid find command";
-            output = ui.generateOutput(parsedInput, taskList);
-            break;
-        default:
-            break;
+        } catch (InvalidCommandException e) {
+            return INVALID_COMMAND_OUTPUT;
+        } catch (NoCommandException e) {
+            return NO_COMMAND_OUTPUT;
+        } catch (EmptyCommandException e) {
+            return EMPTY_COMMAND_OUTPUT;
+        } catch (NotInListException e) {
+            return NOT_IN_LIST_OUTPUT;
+        } catch (NumberFormatException e) {
+            return NOT_INTEGER_ARGUMENT_OUTPUT;
+        } catch (Exception e) {
+            return OTHER_ERROR;
         }
-        return output;
     }
 
     private String duplicateTaskMessage(Task task) {
         TaskList duplicateList = this.taskList.findDuplicate(task);
         return "Note that you are adding:" + task.toString() + "\nThe following is/are already in the list:\n" + duplicateList.toStringSkipFirstLine();
+    }
+
+    private String handleListCommand(String[] tokens) throws NoCommandException {
+        assert tokens.length == 1: "Invalid list comand";
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleMarkCommand(String[] tokens) throws IOException, NoCommandException,  NotInListException, NumberFormatException {
+        assert tokens.length == 2: "Invalid mark command";
+        int taskToMark = Integer.parseInt(tokens[1]) - 1;
+        if (taskToMark > this.taskList.size()) {
+            throw new NotInListException();
+        }
+        this.taskList.get(taskToMark).mark();
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleUnmarkCommand(String[] tokens) throws IOException, NoCommandException, NotInListException, NumberFormatException {
+        assert tokens.length == 2: "Invalid unmark command";
+        int taskToUnmark = Integer.parseInt(tokens[1]) - 1;
+        if (taskToUnmark > this.taskList.size()) {
+            throw new NotInListException();
+        }
+        this.taskList.get(taskToUnmark).unmark();
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleToDoCommand(String[] tokens) throws IOException, NoCommandException {
+        assert tokens.length == 2: "Invalid todo command";
+        Task todoTask = new ToDos(tokens[1]);
+        if (this.taskList.containsDuplicate(todoTask)) {
+            String output = duplicateTaskMessage(todoTask);
+            this.taskList.add(todoTask);
+            this.taskStorage.saveTaskOnHardDisk(this.taskList);
+            return output;
+        } 
+        this.taskList.add(todoTask);
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleDeadlineCommand(String[] tokens) throws IOException, NoCommandException {
+        assert tokens.length == 3: "Invalid deadline command";
+        Task deadlineTask = new Deadlines(tokens[1], tokens[2]);
+        if (this.taskList.containsDuplicate(deadlineTask)) {
+            String output = duplicateTaskMessage(deadlineTask);
+            this.taskList.add(deadlineTask);
+            this.taskStorage.saveTaskOnHardDisk(this.taskList);
+            return output;
+        } 
+        this.taskList.add(deadlineTask);
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleEventCommand(String[] tokens) throws IOException, NoCommandException {
+        assert tokens.length == 4: "Invalid event command";
+        Task eventTask = new Events(tokens[1], tokens[2], tokens[3]);
+        if (this.taskList.containsDuplicate(eventTask)) {
+            String output = duplicateTaskMessage(eventTask);
+            this.taskList.add(eventTask);
+            this.taskStorage.saveTaskOnHardDisk(this.taskList);
+            return output;
+        }
+        this.taskList.add(eventTask);
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return ui.generateOutput(tokens, this.taskList);
+    }
+
+    private String handleDeleteCommand(String[] tokens) throws IOException, NoCommandException, NotInListException, NumberFormatException {
+        assert tokens.length == 2: "Invalid delete command";
+        int taskToDelete = Integer.parseInt(tokens[1]) - 1;
+        if (taskToDelete > this.taskList.size()) {
+            throw new NotInListException();
+        }
+        String output = ui.generateOutput(tokens, taskList);
+        this.taskList.delete(taskToDelete);
+        this.taskStorage.saveTaskOnHardDisk(this.taskList);
+        return output;
+    }
+
+    private String handleFindCommand(String[] tokens) throws IOException, NoCommandException {
+        assert tokens.length == 2: "Invalid find command";
+        return ui.generateOutput(tokens, taskList);
     }
 }

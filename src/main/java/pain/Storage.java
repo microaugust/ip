@@ -59,7 +59,7 @@ public class Storage {
             }
             sc.close();
             return userTasks;
-        } catch (CorruptedInputException | IndexOutOfBoundsException | DateTimeParseException e) {
+        } catch (CorruptedInputException | IndexOutOfBoundsException | DateTimeParseException | IOException e) {
             System.out.println("Corrupted File. New file will be made");
             FileWriter dataFile = new FileWriter(this.file);
             dataFile.close();
