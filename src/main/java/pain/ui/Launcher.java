@@ -1,3 +1,6 @@
+//@@author microaugust-reused
+// Reused from https://se-education.org/guides/tutorials/javaFx.html
+// with no modification
 package pain.ui;
 import javafx.application.Application;
 

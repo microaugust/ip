@@ -1,3 +1,6 @@
+//@@author microaugust-reused
+// Reused from https://se-education.org/guides/tutorials/javaFx.html
+// with modification to work with no modification.
 package pain.ui;
 
 import java.io.IOException;

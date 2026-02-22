@@ -42,11 +42,11 @@ public class Pain {
         return ui.startUp();
     }
 
+    // AI-assisted: ChatGPT suggests to help refactor getResponse() into helper methods.
     public String getResponse(String input) {
         try {
             String[] parsedInput = parser.parseInput(input);
             switch(parsedInput[0]) {
-            //add error handling later
             case "bye":
                 System.exit(0);
                 return "EXIT";

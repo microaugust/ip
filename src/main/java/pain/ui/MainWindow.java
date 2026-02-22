@@ -1,3 +1,6 @@
+//@@author microaugust-reused
+// Reused from https://se-education.org/guides/tutorials/javaFx.html
+// with modification to work with the Pain class and generate resonable output.
 package pain.ui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
