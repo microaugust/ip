@@ -65,4 +65,8 @@ public class Task {
     public String getTaskName() {
         return this.task;
     }
+
+    public boolean isSameTask(Task t) {
+        return this.task.equals(t.task);
+    }
 }
