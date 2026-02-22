@@ -1,30 +1,70 @@
-# Duke User Guide
+# Pain User Guide
 
-// Update the title above to match the actual product name
+![UI screenshot](Ui.png)
 
-// Product screenshot goes here
+**Pain** is a task managing chatbot that helps you keep track of your painful daily tasks quickly and clearly.
+You can add todos, deadlines, and events, list and search tasks, and mark tasks as done—all through simple commands.
 
-// Product intro goes here
+Pain is designed for fast workflow, with keyboard as the main input.
 
-## Adding deadlines
+## Exiting the Program
 
-// Describe the action and its outcome.
+**Command:** `bye`
+Exits the application.
 
-// Give examples of usage
+## Listing all Tasks
 
-Example: `keyword (optional arguments)`
+**Command:** `list`
+Shows all tasks currently in your list.
 
-// A description of the expected outcome goes here
+## Adding Todo task
+**Command:** `todo <description>`  
+Adds a todo task.
 
-```
-expected output
-```
+Example:
+`todo Homework`
+`todo CS2103 iP`
 
-## Feature ABC
+## Adding Deadline task
+**Command:** `deadline <description> /by <dd/MM/yyyy HH:mm:ss>`  
+Adds a deadline task with a due date/time.
 
-// Feature details
+Example:
+`deadline Homework /by 12/12/2012 12:12:12`
+`deadline CS2103 iP /by 20/02/2026 23:59:59`
 
+## Adding Event task
+**Command:** `event <description> /from <dd/MM/yyyy HH:mm:ss> /to <dd/MM/yyyy HH:mm:ss>`  
+Adds an event task with a start and end date/time.
 
-## Feature XYZ
+Example:
+`event Homework /from 11/11/2011 11:11:11 /to 12/12/2012 12:12:12`
+`event CS2103 iP /from 01/01/2026 00:00:00 /to 20/02/2026 23:59:59`
 
-// Feature details
+## Finding task by description
+**Command:** `find <keyword>`  
+Lists tasks whose description contains the keyword.
+
+Example:
+`find Homework`
+
+## Deleting task
+**Command:** `delete <index>`  
+Deletes the task at the given index (1-based).
+
+Example:
+`delete 1`
+
+## Mark Task as done
+**Command:** `mark <index>`  
+Marks the task at the given index as done.
+
+Example:
+`mark 1`
+
+## Unmark Task, changing status to not done
+**Command:** `unmark <index>`  
+Marks the task at the given index as not done.
+
+Example:
+`unmark 1`
