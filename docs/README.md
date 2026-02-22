@@ -7,6 +7,7 @@ You can add todos, deadlines, and events, list and search tasks, and mark tasks 
 
 Pain is designed for fast workflow, with keyboard as the main input.
 
+
 ## Exiting the Program
 
 **Command:** `bye`
@@ -55,16 +56,20 @@ Deletes the task at the given index (1-based).
 Example:
 `delete 1`
 
-## Mark Task as done
+## Mark task as done
 **Command:** `mark <index>`  
-Marks the task at the given index as done.
+Marks the task at the given index as done (1-based).
 
 Example:
 `mark 1`
 
-## Unmark Task, changing status to not done
+## Unmark task, changing status to not done
 **Command:** `unmark <index>`  
-Marks the task at the given index as not done.
+Marks the task at the given index as not done (1-based).
 
 Example:
 `unmark 1`
+
+## Acknowledgements
+GUI implementation adapted from the CS2103T JavaFX tutorial, User and Pain image were also taken from the same tutorial.
+  Adapted from https://se-education.org/guides/tutorials/javaFx.html
