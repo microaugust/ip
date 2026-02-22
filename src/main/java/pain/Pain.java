@@ -9,9 +9,6 @@ import java.time.format.DateTimeParseException;
  */
 public class Pain {
 
-    private static final String PATHNAME = "data/pain.txt";
-    private static final String NAME = "Pain";
-    private static final Ui ui = new Ui(NAME);
     private static final String INVALID_COMMAND_OUTPUT = "The command structure is invalid";
     private static final String NO_COMMAND_OUTPUT = "The command doesn't exist";
     private static final String EMPTY_COMMAND_OUTPUT = "This command need some arguments";
@@ -20,7 +17,11 @@ public class Pain {
     private static final String DATE_TIME_PARSE_ERROR_OUTPUT = "Date and time input format is dd/mm/yyyy hh:mm:ss";
     private static final String OTHER_ERROR = "SORRY AN ERROR JUST OCCUR";
 
-    private final Parser parser = new Parser();
+    private static final String PATHNAME = "data/pain.txt";
+    private static final String NAME = "Pain";
+    private static final Ui ui = new Ui(NAME);
+    private static final Parser parser = new Parser();
+    
     private TaskList taskList;
     private Storage taskStorage;
 
