@@ -55,6 +55,13 @@ public class TaskList {
         return false;
     }
 
+    /**
+     * Finds all tasks in the current list that have the same description as the
+     * given task.
+     *
+     * @param addedTask the task to compare against existing tasks
+     * @return a TaskList containing all matching tasks
+     */
     public TaskList findDuplicate(Task addedTask) {
         ArrayList<Task> duplicates = new ArrayList<Task>();
         for (Task t: this.userTasks) {
