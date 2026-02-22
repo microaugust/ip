@@ -1,6 +1,7 @@
 package pain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Represents a simple to-do task that has a description and a completion status.
@@ -23,7 +24,7 @@ public class Events extends Task {
      * @param to Events end time in "dd/mm/yy hh:mm:ss" format.
      * @return Events object.
      */
-    public Events(String task, String from, String to) {
+    public Events(String task, String from, String to) throws DateTimeParseException {
         super(task);
         this.from = LocalDateTime.parse(from, intputFormatter);
         this.to = LocalDateTime.parse(to, intputFormatter);
@@ -38,7 +39,7 @@ public class Events extends Task {
      * @param to Events end time in "dd/mm/yy hh:mm:ss" format.
      * @return Events object.
      */
-    public Events(String task, boolean isDone, String from, String to) {
+    public Events(String task, boolean isDone, String from, String to) throws DateTimeParseException {
         super(task, isDone);
         this.from = LocalDateTime.parse(from, intputFormatter);
         this.to = LocalDateTime.parse(to, intputFormatter);

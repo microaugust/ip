@@ -17,8 +17,9 @@ public class Parser {
      * @throws InvalidCommandException If the command content is invalid.
      * @throws EmptyCommandException If the command doesn't contain any input when required.
      * @throws NoCommandException If the command doesn't exist.
-     */
-    public String[] parseInput(String input) throws InvalidCommandException, EmptyCommandException, NoCommandException, NumberFormatException {
+    */
+    public String[] parseInput(String input) throws InvalidCommandException, EmptyCommandException, NoCommandException,
+            NumberFormatException {
         String[] splitBySpace = input.split("\\s+");
         switch (splitBySpace[0]) {
         case "bye", "list":
@@ -55,7 +56,7 @@ public class Parser {
     /**
      * Validates commands that must contain exactly one token (e.g., "bye", "list").
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @return The splitted input array.
      * @throws InvalidCommandException If extra tokens are present.
      */
@@ -69,26 +70,27 @@ public class Parser {
     /**
      * Validates commands that require exactly one integer argument (e.g., "mark 2", "unmark 3", "delete 1").
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @return The splitted input array.
      * @throws EmptyCommandException If the integer argument is missing.
      * @throws InvalidCommandException If too many tokens are provided.
      * @throws NumberFormatException If the second token is not a valid integer.
      */
-    private static String[] parseSecondTokenIntegerCommand(String[] tokens) throws EmptyCommandException, InvalidCommandException, NumberFormatException {
+    private static String[] parseSecondTokenIntegerCommand(String[] tokens) throws EmptyCommandException,
+            InvalidCommandException, NumberFormatException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
         } else if (tokens.length > 2) {
             throw new InvalidCommandException();
         }
-        Integer.parseInt(tokens[1]); 
+        Integer.parseInt(tokens[1]);
         return tokens;
     }
 
     /**
-     * Parses a ToDos command into the format: {"todo", "<task description>"}.
+     * Parses a ToDos command into the format: {"todo", "task description"}.
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @return A normalized command array containing the "task" and task description.
      * @throws EmptyCommandException If the task description is missing.
      */
@@ -103,16 +105,17 @@ public class Parser {
 
     /**
      * Parses a Deadlines command into the format:
-     * {"deadline", "<task description>", "</by date/time>"}.
+     * {"deadline", "task description", "/by", "date/time"}.
      * The input must contain the delimiter {" /by "}.
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @param input Original (un-split) user input string, used to check delimiters.
      * @return A normalized command array containing command word, task description, and deadline.
      * @throws EmptyCommandException If the task description is missing.
      * @throws InvalidCommandException If " \by " us not present in the input.
      */
-    private static String[] parseDeadlineCommand(String[] tokens, String input) throws EmptyCommandException, InvalidCommandException {
+    private static String[] parseDeadlineCommand(String[] tokens, String input) throws EmptyCommandException,
+            InvalidCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
         } else if ((!input.contains(" /by "))) {
@@ -120,22 +123,23 @@ public class Parser {
         }
         String deadlineName = removeFirstElementAndCombineString(tokens);
         String[] splitDate = deadlineName.split(" /by ");
-        String[] deadlineParsed = {tokens[0], splitDate[0], splitDate[1]}; 
+        String[] deadlineParsed = {tokens[0], splitDate[0], splitDate[1]};
         return deadlineParsed;
     }
 
     /**
      * Parses an Events command into the format:
-     * {"event", "<event name>", "<from date/time>", "<to date/time>"}.
+     * {"event", "event description", "/from" "date/time", "/to", "date/time"}.
      * The input must contain the delimiters {" /from "} and {" /to "}.
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @param input Original (un-split) user input string, used to check delimiters.
      * @return A normalized command array containing command word, event name, start time, and end time.
      * @throws EmptyCommandException If the event name is missing.
      * @throws InvalidCommandException If {" /from "} or {" /to "} is missing in the input.
      */
-    private static String[] parseEventCommand(String[] tokens, String input) throws EmptyCommandException, InvalidCommandException {
+    private static String[] parseEventCommand(String[] tokens, String input) throws EmptyCommandException,
+            InvalidCommandException {
         if (tokens.length == 1) {
             throw new EmptyCommandException();
         } else if ((!input.contains(" /from ")) || (!input.contains(" /to "))) {
@@ -152,9 +156,9 @@ public class Parser {
     }
 
     /**
-     * Parses a find command into the format: {"find", "<keyword>"}.
+     * Parses a find command into the format: {"find", "keyword"}.
      *
-     * @param String[] tokens, the parsed user input.
+     * @param String array tokens, the parsed user input.
      * @return A normalized command array containing the command word and search keyword.
      * @throws EmptyCommandException If the keyword is missing.
      * @throws InvalidCommandException If more than one keyword is provided.

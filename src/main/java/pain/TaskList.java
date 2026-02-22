@@ -90,7 +90,7 @@ public class TaskList {
         return toReturn;
     }
 
-     /**
+    /**
      * Returns a formatted string representation of just the task in the task list.
      *
      * @return A String representation of the tasks in this list.
@@ -102,7 +102,7 @@ public class TaskList {
         }
         String toReturn = "";
         for (int i = 0; i < n; i++) {
-            if(i != 0) {
+            if (i != 0) {
                 toReturn += "\n";
             }
             toReturn += (i + 1) + ". " + this.userTasks.get(i).toString();

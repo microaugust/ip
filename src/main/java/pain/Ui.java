@@ -58,12 +58,12 @@ public class Ui {
             return "OK, I've marked this task as not done yet:\n" + taskList.get(unmarkIndex).toString();
         case "todo", "deadline", "event":
             String addedTask = taskList.get(taskList.size() - 1).toString();
-            return "Got it. I've added this task:\n" + addedTask + 
-                    "\nNow you have " + taskList.size() + " tasks in the list.";
+            return "Got it. I've added this task:\n" + addedTask
+                    + "\nNow you have " + taskList.size() + " tasks in the list.";
         case "delete":
             int deleteIndex = Integer.parseInt(parseInput[1]) - 1;
-            return "Noted. I've removed this task:\n" + taskList.get(deleteIndex).toString() + 
-                    "\nNow you have " + (taskList.size() - 1) + " tasks in the list.";
+            return "Noted. I've removed this task:\n" + taskList.get(deleteIndex).toString()
+                    + "\nNow you have " + (taskList.size() - 1) + " tasks in the list.";
         case "find":
             TaskList foundList = new TaskList(taskList.find(parseInput[1]));
             return "Here are the matching tasks in your list:\n" + foundList.toStringSkipFirstLine();

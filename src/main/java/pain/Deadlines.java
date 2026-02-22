@@ -1,6 +1,7 @@
 package pain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Represents a simple task with deadlines that has a description and a completion status.
@@ -21,7 +22,7 @@ public class Deadlines extends Task {
      * @param by Deadlines time in "dd/mm/yy hh:mm:ss" format.
      * @return Deadlines object.
      */
-    public Deadlines(String task, String by) {
+    public Deadlines(String task, String by) throws DateTimeParseException {
         super(task);
         this.by = LocalDateTime.parse(by, inputFormatter);
     }
@@ -34,7 +35,7 @@ public class Deadlines extends Task {
      * @param by Deadlines date in "dd/mm/yy hh:mm:ss" format.
      * @return Deadlines object.
      */
-    public Deadlines(String task, boolean isDone, String by) {
+    public Deadlines(String task, boolean isDone, String by) throws DateTimeParseException {
         super(task, isDone);
         this.by = LocalDateTime.parse(by, inputFormatter);
     }

@@ -2,7 +2,6 @@ package pain;
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
 /**
  * Main program for the Pain application.
@@ -18,6 +17,7 @@ public class Pain {
     private static final String EMPTY_COMMAND_OUTPUT = "This command need some arguments";
     private static final String NOT_IN_LIST_OUTPUT = "That task doesn't exist";
     private static final String NOT_INTEGER_ARGUMENT_OUTPUT = "Argument must be an integer";
+    private static final String DATE_TIME_PARSE_ERROR_OUTPUT = "Date and time input formar is dd/mm/yyyy hh:mm:ss";
     private static final String OTHER_ERROR = "SORRY AN ERROR JUST OCCUR";
 
     private final Parser parser = new Parser();
@@ -28,10 +28,10 @@ public class Pain {
         File data = new File("data");
         File dataText = new File(PATHNAME);
         this.taskStorage = new Storage(PATHNAME);
-        if(!data.exists()) {
+        if (!data.exists()) {
             data.mkdirs();
         }
-        if(this.taskStorage.exists()) {
+        if (this.taskStorage.exists()) {
             this.taskList = new TaskList(this.taskStorage.retrieveTask());
         } else {
             this.taskList = new TaskList();
@@ -49,6 +49,7 @@ public class Pain {
             //add error handling later
             case "bye":
                 System.exit(0);
+                return "EXIT";
             case "list":
                 return handleListCommand(parsedInput);
             case "mark":
@@ -78,6 +79,8 @@ public class Pain {
             return NOT_IN_LIST_OUTPUT;
         } catch (NumberFormatException e) {
             return NOT_INTEGER_ARGUMENT_OUTPUT;
+        } catch (DateTimeParseException e) {
+            return DATE_TIME_PARSE_ERROR_OUTPUT;
         } catch (Exception e) {
             return OTHER_ERROR;
         }
@@ -85,16 +88,18 @@ public class Pain {
 
     private String duplicateTaskMessage(Task task) {
         TaskList duplicateList = this.taskList.findDuplicate(task);
-        return "Note that you are adding:" + task.toString() + "\nThe following is/are already in the list:\n" + duplicateList.toStringSkipFirstLine();
+        return "Note that you are adding:" + task.toString() + "\nThe following is/are already in the list:\n"
+                + duplicateList.toStringSkipFirstLine();
     }
 
     private String handleListCommand(String[] tokens) throws NoCommandException {
-        assert tokens.length == 1: "Invalid list comand";
+        assert tokens.length == 1 : "Invalid list comand";
         return ui.generateOutput(tokens, this.taskList);
     }
 
-    private String handleMarkCommand(String[] tokens) throws IOException, NoCommandException,  NotInListException, NumberFormatException {
-        assert tokens.length == 2: "Invalid mark command";
+    private String handleMarkCommand(String[] tokens) throws IOException, NoCommandException,
+            NotInListException, NumberFormatException {
+        assert tokens.length == 2 : "Invalid mark command";
         int taskToMark = Integer.parseInt(tokens[1]) - 1;
         if (taskToMark > this.taskList.size()) {
             throw new NotInListException();
@@ -104,8 +109,9 @@ public class Pain {
         return ui.generateOutput(tokens, this.taskList);
     }
 
-    private String handleUnmarkCommand(String[] tokens) throws IOException, NoCommandException, NotInListException, NumberFormatException {
-        assert tokens.length == 2: "Invalid unmark command";
+    private String handleUnmarkCommand(String[] tokens) throws IOException, NoCommandException,
+            NotInListException, NumberFormatException {
+        assert tokens.length == 2 : "Invalid unmark command";
         int taskToUnmark = Integer.parseInt(tokens[1]) - 1;
         if (taskToUnmark > this.taskList.size()) {
             throw new NotInListException();
@@ -116,35 +122,35 @@ public class Pain {
     }
 
     private String handleToDoCommand(String[] tokens) throws IOException, NoCommandException {
-        assert tokens.length == 2: "Invalid todo command";
+        assert tokens.length == 2 : "Invalid todo command";
         Task todoTask = new ToDos(tokens[1]);
         if (this.taskList.containsDuplicate(todoTask)) {
             String output = duplicateTaskMessage(todoTask);
             this.taskList.add(todoTask);
             this.taskStorage.saveTaskOnHardDisk(this.taskList);
             return output;
-        } 
+        }
         this.taskList.add(todoTask);
         this.taskStorage.saveTaskOnHardDisk(this.taskList);
         return ui.generateOutput(tokens, this.taskList);
     }
 
     private String handleDeadlineCommand(String[] tokens) throws IOException, NoCommandException {
-        assert tokens.length == 3: "Invalid deadline command";
+        assert tokens.length == 3 : "Invalid deadline command";
         Task deadlineTask = new Deadlines(tokens[1], tokens[2]);
         if (this.taskList.containsDuplicate(deadlineTask)) {
             String output = duplicateTaskMessage(deadlineTask);
             this.taskList.add(deadlineTask);
             this.taskStorage.saveTaskOnHardDisk(this.taskList);
             return output;
-        } 
+        }
         this.taskList.add(deadlineTask);
         this.taskStorage.saveTaskOnHardDisk(this.taskList);
         return ui.generateOutput(tokens, this.taskList);
     }
 
     private String handleEventCommand(String[] tokens) throws IOException, NoCommandException {
-        assert tokens.length == 4: "Invalid event command";
+        assert tokens.length == 4 : "Invalid event command";
         Task eventTask = new Events(tokens[1], tokens[2], tokens[3]);
         if (this.taskList.containsDuplicate(eventTask)) {
             String output = duplicateTaskMessage(eventTask);
@@ -157,8 +163,9 @@ public class Pain {
         return ui.generateOutput(tokens, this.taskList);
     }
 
-    private String handleDeleteCommand(String[] tokens) throws IOException, NoCommandException, NotInListException, NumberFormatException {
-        assert tokens.length == 2: "Invalid delete command";
+    private String handleDeleteCommand(String[] tokens) throws IOException, NoCommandException,
+            NotInListException, NumberFormatException {
+        assert tokens.length == 2 : "Invalid delete command";
         int taskToDelete = Integer.parseInt(tokens[1]) - 1;
         if (taskToDelete > this.taskList.size()) {
             throw new NotInListException();
@@ -170,7 +177,7 @@ public class Pain {
     }
 
     private String handleFindCommand(String[] tokens) throws IOException, NoCommandException {
-        assert tokens.length == 2: "Invalid find command";
+        assert tokens.length == 2 : "Invalid find command";
         return ui.generateOutput(tokens, taskList);
     }
 }
