@@ -17,7 +17,7 @@ public class Pain {
     private static final String EMPTY_COMMAND_OUTPUT = "This command need some arguments";
     private static final String NOT_IN_LIST_OUTPUT = "That task doesn't exist";
     private static final String NOT_INTEGER_ARGUMENT_OUTPUT = "Argument must be an integer";
-    private static final String DATE_TIME_PARSE_ERROR_OUTPUT = "Date and time input formar is dd/mm/yyyy hh:mm:ss";
+    private static final String DATE_TIME_PARSE_ERROR_OUTPUT = "Date and time input format is dd/mm/yyyy hh:mm:ss";
     private static final String OTHER_ERROR = "SORRY AN ERROR JUST OCCUR";
 
     private final Parser parser = new Parser();
