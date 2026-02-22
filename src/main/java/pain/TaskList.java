@@ -38,6 +38,25 @@ public class TaskList {
         return this.userTasks;
     }
 
+    public boolean containsDuplicate(Task addedTask) {
+        for (Task t: this.userTasks) {
+            if (addedTask.isSameTask(t)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public TaskList findDuplicate(Task addedTask) {
+        ArrayList<Task> duplicates = new ArrayList<Task>();
+        for (Task t: this.userTasks) {
+            if (addedTask.isSameTask(t)) {
+                duplicates.add(t);
+            }
+        }
+        return new TaskList(duplicates);
+    }
+
     /**
      * Return ArrayList of Task with the specify keyword.
      *
@@ -91,4 +110,3 @@ public class TaskList {
         return toReturn;
     }
 }
-
